@@ -27,7 +27,7 @@ CREATE TABLE Log (
 );
 
 CREATE TABLE Modificaciones (
-    IdModificacion UUID NOT NULL PRIMARY KEY,
+    IdModificacion SERIAL PRIMARY KEY,
     IdLog INT NOT NULL,
     AntesCambio TEXT NOT NULL,
     DespuesCambio TEXT NOT NULL,
