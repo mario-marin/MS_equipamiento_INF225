@@ -2,6 +2,7 @@ package com.MS_Equipamiento.dao;
 
 import com.MS_Equipamiento.model.Equipamiento;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface EquipamientoDao {
@@ -9,4 +10,6 @@ public interface EquipamientoDao {
     void deleteEquipamiento(UUID equipamiento_id);
     Equipamiento getEquipamiento(UUID equipamiento_id);
     void updateEquipamiento(Equipamiento equipamiento);
+    List<Equipamiento> getAllEquipamiento();
+    List<Equipamiento> getAllEquipamientoFromCategory(UUID id_categoria);
 }

@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Repository("postgres-equipamiento")
@@ -48,7 +49,7 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
 
     @Override
     public Equipamiento getEquipamiento(UUID equipamiento_id) {
-        String query = "SELECT CAST(equipamiento.idEquipamiento AS VARCHAR), equipamiento.Nombre, equipamiento.Descripcion, equipamiento.Estado, categoria.idCategoria, categoria.Nombre, categoria.Descripcion, categoria.Estado FROM paciente INNER JOIN categoria ON equipamiento.idCategoria=categoria.idCategoria WHERE idEquipamiento=?";
+        String query = "SELECT CAST(equipamiento.idEquipamiento AS VARCHAR), equipamiento.Nombre, equipamiento.Descripcion, equipamiento.Estado, categoria.idCategoria, categoria.Nombre, categoria.Descripcion, categoria.Estado FROM equipamiento INNER JOIN categoria ON equipamiento.idCategoria=categoria.idCategoria WHERE idEquipamiento=?";
         Object[] values = new Object[]{equipamiento_id};
         return (jdbcTemplate.queryForObject(query,values,new EquipamientoRowMapper()));
     }
@@ -136,6 +137,20 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
                 jdbcTemplate.update(query,values);
             }
         }
+    }
+
+    @Override
+    public List<Equipamiento> getAllEquipamiento() {
+        String query = "SELECT CAST(equipamiento.idEquipamiento AS VARCHAR), equipamiento.Nombre, equipamiento.Descripcion, equipamiento.Estado, categoria.idCategoria, categoria.Nombre, categoria.Descripcion, categoria.Estado FROM equipamiento INNER JOIN categoria ON equipamiento.idCategoria=categoria.idCategoria";
+        Object[] values = new Object[]{};
+        return (jdbcTemplate.query(query,values,new EquipamientoRowMapper()));
+    }
+
+    @Override
+    public List<Equipamiento> getAllEquipamientoFromCategory(UUID id_categoria) {
+        String query = "SELECT CAST(equipamiento.idEquipamiento AS VARCHAR), equipamiento.Nombre, equipamiento.Descripcion, equipamiento.Estado, categoria.idCategoria, categoria.Nombre, categoria.Descripcion, categoria.Estado FROM equipamiento INNER JOIN categoria ON equipamiento.idCategoria=categoria.idCategoria WHERE idCategoria=?";
+        Object[] values = new Object[]{id_categoria};
+        return (jdbcTemplate.query(query,values,new EquipamientoRowMapper()));
     }
 
 

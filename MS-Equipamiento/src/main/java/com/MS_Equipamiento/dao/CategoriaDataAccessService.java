@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Repository("postgres-categorias")
@@ -118,5 +119,12 @@ public class CategoriaDataAccessService implements CategoriasDao{
                 jdbcTemplate.update(query,values);
             }
         }
+    }
+
+    @Override
+    public List<Categoria> getAllCategorias() {
+        String query = "SELECT CAST(idCategoria AS VARCHAR),Nombre,Descripcion,Estado FROM Categoria";
+        Object[] values = new Object[]{};
+        return (jdbcTemplate.query(query,values,new CategoriaRowMapper()));
     }
 }
