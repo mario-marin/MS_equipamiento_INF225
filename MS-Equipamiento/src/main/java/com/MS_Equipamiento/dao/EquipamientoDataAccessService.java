@@ -74,8 +74,8 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
                 jdbcTemplate.update(query,values,keyHolder);
 
                 query = "INSERT INTO Modificaciones (idModificacion, IdLog, AntesCambio, DespuesCambio) VALUES (?,?,?,?)";
-                String AntesCambio = "Nombre: " + old_equipamiento.getDescripsion();
-                String DespuesCambio = "Nombre: " + equipamiento.getDescripsion();
+                String AntesCambio = "Descripcion: " + old_equipamiento.getDescripsion();
+                String DespuesCambio = "Descripcion: " + equipamiento.getDescripsion();
                 values = new Object[]{keyHolder.getKey(),AntesCambio,DespuesCambio};
                 jdbcTemplate.update(query,values);
 
