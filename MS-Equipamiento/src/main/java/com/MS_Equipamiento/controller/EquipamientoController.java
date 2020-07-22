@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.MS_Equipamiento.model.Equipamiento;
 import com.MS_Equipamiento.dao.EquipamientoDataAccessService;
 
-import com.MS_Equipamiento.model.Categoria;
-import com.MS_Equipamiento.dao.CategoriaDataAccessService;
 import java.util.UUID;
 
 @RestController
@@ -95,6 +93,11 @@ public class EquipamientoController {
         return Equip.getAllEquipamiento();
     }
 
+    @GetMapping("/equip/cat/{id}")
+    List<Equipamiento> getAllEquipamientoFromCategory(@PathVariable UUID id) {
+        return Equip.getAllEquipamientoFromCategory(id);
+    }
+
     @PostMapping("/equipamientos")
     void newEquipamiento(@RequestBody Equipamiento newEquipamiento) {
         Equip.insertEquipamiento(newEquipamiento);
@@ -113,7 +116,7 @@ public class EquipamientoController {
     }
 
     @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable UUID id) {
+    void deleteEquipamiento(@PathVariable UUID id) {
         Equip.deleteEquipamiento(id);
     }
 
