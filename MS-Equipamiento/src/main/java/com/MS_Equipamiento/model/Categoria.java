@@ -16,7 +16,7 @@ public class Categoria {
         this.estado = estado;
     }
 
-    public Categoria( String nombre, String descripcion, int estado) {
+    public Categoria(String nombre, String descripcion, int estado) {
         this.id = null;
         this.nombre = nombre;
         this.descripcion = descripcion;
