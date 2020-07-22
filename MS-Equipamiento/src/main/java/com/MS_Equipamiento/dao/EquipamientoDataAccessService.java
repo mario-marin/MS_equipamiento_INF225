@@ -144,7 +144,7 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
 
     @Override
     public List<Equipamiento> getAllEquipamiento() {
-        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, categoria.idcategoria, categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.iddategoria";
+        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, categoria.idcategoria, categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.idcategoria";
         Object[] values = new Object[]{};
         return (jdbcTemplate.query(query,values,new EquipamientoRowMapper()));
     }
