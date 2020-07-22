@@ -15,18 +15,18 @@ public class EquipamientoRowMapper implements RowMapper<Equipamiento> {
     public Equipamiento mapRow(ResultSet resultSet, int i) throws SQLException {
 
         Categoria categoria = new Categoria(
-                UUID.fromString(resultSet.getString("categoria.idCategoria")),
-                resultSet.getString("categoria.Nombre"),
-                resultSet.getString("categoria.Descripcion"),
-                resultSet.getInt("categoria.Estado")
+                UUID.fromString(resultSet.getString("categoria.idcategoria")),
+                resultSet.getString("categoria.nombre"),
+                resultSet.getString("categoria.descripcion"),
+                resultSet.getInt("categoria.estado")
         );
 
         Equipamiento equipamiento = new Equipamiento(
-                UUID.fromString(resultSet.getString("equipamiento.idEquipamiento")),
+                UUID.fromString(resultSet.getString("equipamiento.idequipamiento")),
                 categoria,
-                resultSet.getString("equipamiento.Nombre"),
-                resultSet.getString("equipamiento.Descripcion"),
-                resultSet.getInt("equipamiento.Estado")
+                resultSet.getString("equipamiento.nombre"),
+                resultSet.getString("equipamiento.descripcion"),
+                resultSet.getInt("equipamiento.estado")
         );
 
         return (equipamiento);
