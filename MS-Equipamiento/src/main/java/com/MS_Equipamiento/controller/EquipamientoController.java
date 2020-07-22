@@ -1,21 +1,11 @@
 package com.MS_Equipamiento.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.MS_Equipamiento.model.Equipamiento;
 import com.MS_Equipamiento.dao.EquipamientoDataAccessService;
+import com.MS_Equipamiento.model.Equipamiento;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -81,8 +71,8 @@ public void insertCategoria(@RequestBody Categoria cat) {
 public class EquipamientoController {
 
     private final EquipamientoDataAccessService Equip;
-    
-    EquipamientoController(EquipamientoDataAccessService Equip) {
+    @Autowired
+    public EquipamientoController(EquipamientoDataAccessService Equip) {
         this.Equip = Equip;
     }
    

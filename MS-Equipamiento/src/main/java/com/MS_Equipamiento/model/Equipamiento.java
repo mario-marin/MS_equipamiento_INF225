@@ -18,6 +18,14 @@ public class Equipamiento {
         this.estado = estado;
     }
 
+    public Equipamiento( Categoria categoria, String name, String descripsion, int estado) {
+        this.id = null;
+        this.categoria = categoria;
+        this.name = name;
+        this.descripsion = descripsion;
+        this.estado = estado;
+    }
+
     public UUID getId() {
         return id;
     }

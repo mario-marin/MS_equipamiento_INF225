@@ -23,14 +23,17 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
 
     @Override
     public void insertEquipamiento(Equipamiento equipamiento) {
-        String query = "INSERT INTO equipamiento (idEquipamiento, IdCategoria, Nombre, Descripcion, Estado) VALUES (?,?,?,?,?)";
-        Object[] values = new Object[]{equipamiento.getId(),equipamiento.getCategoria().getId(),equipamiento.getName(),equipamiento.getDescripsion(),equipamiento.getEstado()};
-        jdbcTemplate.update(query,values);
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        String query = "INSERT INTO equipamiento (IdCategoria, Nombre, Descripcion, Estado) VALUES (?,?,?,?)";
+        Object[] values = new Object[]{equipamiento.getCategoria().getId(),equipamiento.getName(),equipamiento.getDescripsion(),equipamiento.getEstado()};
+        jdbcTemplate.update(query,values,keyHolder);
 
         long timestamp = Instant.now().getEpochSecond();
 
         query = "INSERT INTO LOG (idEquipamiento, IdCategoria, AccionRealizada, Fecha) VALUES (?,?,?,?)";
-        values = new Object[]{equipamiento.getId(),null,100,timestamp};
+        values = new Object[]{keyHolder.getKey(),null,100,timestamp};
         jdbcTemplate.update(query,values);
     }
 

@@ -24,14 +24,17 @@ public class CategoriaDataAccessService implements CategoriasDao{
 
     @Override
     public void insertCategoria(Categoria categoria) {
-        String query = "INSERT INTO categoria (IdCategoria, Nombre, Descripcion, Estado) VALUES (?,?,?,?)";
-        Object[] values = new Object[]{categoria.getId(),categoria.getNombre(),categoria.getDescripcion(),categoria.getEstado()};
-        jdbcTemplate.update(query,values);
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        String query = "INSERT INTO categoria ( Nombre, Descripcion, Estado) VALUES (?,?,?)";
+        Object[] values = new Object[]{categoria.getNombre(),categoria.getDescripcion(),categoria.getEstado()};
+        jdbcTemplate.update(query,values,keyHolder);
 
         long timestamp = Instant.now().getEpochSecond();
 
         query = "INSERT INTO LOG (idEquipamiento, IdCategoria, AccionRealizada, Fecha) VALUES (?,?,?,?)";
-        values = new Object[]{null,categoria.getId(),10,timestamp};
+        values = new Object[]{null,keyHolder.getKey(),10,timestamp};
         jdbcTemplate.update(query,values);
     }
 
