@@ -4,6 +4,9 @@ import com.MS_Equipamiento.dao.CategoriaDataAccessService;
 import com.MS_Equipamiento.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import java.util.List;
 import java.util.UUID;
