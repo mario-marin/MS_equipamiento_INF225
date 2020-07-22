@@ -13,10 +13,10 @@ public class CategoriaRowMapper implements RowMapper<Categoria> {
     @Override
     public Categoria mapRow(ResultSet resultSet, int i) throws SQLException {
         return new Categoria(
-                UUID.fromString(resultSet.getString("idCategoria")),
-                resultSet.getString("Nombre"),
-                resultSet.getString("Descripcion"),
-                resultSet.getInt("Estado")
+                UUID.fromString(resultSet.getString("idcategoria")),
+                resultSet.getString("nombre"),
+                resultSet.getString("descripcion"),
+                resultSet.getInt("estado")
         );
     }
 }
