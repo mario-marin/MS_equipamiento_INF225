@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.MS_Categoria.model.categoria;
-import com.MS_Categoria.dao.CategoriaDataAccessService;
+import com.MS_Equipamiento.model.Categoria;
+import com.MS_Equipamiento.dao.CategoriaDataAccessService;
 
 
 import java.util.UUID;
