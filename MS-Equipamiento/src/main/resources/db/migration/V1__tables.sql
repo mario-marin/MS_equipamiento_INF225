@@ -1,16 +1,18 @@
 CREATE TABLE Categoria (
-    IdCategoria UUID NOT NULL PRIMARY KEY,
+    IdCategoria uuid DEFAULT uuid_generate_v4 (),
     Nombre VARCHAR(256) NOT NULL,
     Descripcion TEXT,
-    Estado INT NOT NULL
+    Estado INT NOT NULL,
+    PRIMARY KEY (IdCategoria)
 );
 
 CREATE TABLE Equipamiento (
-    IdEquipamiento UUID NOT NULL PRIMARY KEY,
+    IdEquipamiento uuid DEFAULT uuid_generate_v4 (),
     IdCategoria UUID NOT NULL,
     Nombre VARCHAR(256) NOT NULL,
     Descripcion TEXT,
     Estado INT NOT NULL,
+    PRIMARY KEY (IdEquipamiento),
     FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
 
