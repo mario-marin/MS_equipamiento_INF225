@@ -4,12 +4,12 @@ import com.MS_Equipamiento.dao.CategoriaDataAccessService;
 import com.MS_Equipamiento.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 import javax.annotation.Resource;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
 
 @RestController
 /***@RequestMapping("/postgressApp")
@@ -81,21 +81,28 @@ public class CategoriaController {
    
   // Aggregate root
 
-    @GetMapping("/categorias")
+    @GetMapping("/categorias") // it works!
     List<Categoria> getAllCategorias() {
         return Cat.getAllCategorias();
     }
 
-    @PostMapping("/categorias")
-    void newCategoria(@RequestBody Categoria newCategoria) {
+    @PostMapping("/categorias") // ERROR
+    void newCategoria(@RequestBody Map<String, Object> request) {
+        String nombre = (String)request.get("nombre");
+        String descripcion = (String)request.get("descripcion");
+        int estado = (int)request.get("estado");
+
+        Categoria newCategoria;
+        newCategoria = new Categoria(nombre, descripcion, estado);
+
         Cat.insertCategoria(newCategoria);
     }
 
   // Single item
 
-    @GetMapping("/categorias/{id}")
-    void one(@PathVariable UUID id) {
-        Cat.getCategoria(id);
+    @GetMapping("/categorias/{id}") // it works!
+    Categoria one(@PathVariable UUID id) {
+        return Cat.getCategoria(id);
     }
 
     @PutMapping("/categorias")
