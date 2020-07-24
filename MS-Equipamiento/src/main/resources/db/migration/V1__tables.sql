@@ -1,5 +1,5 @@
 CREATE TABLE categoria (
-    idcategoria uuid DEFAULT uuid_generate_v4 (),
+    idcategoria UUID NOT NULL,
     nombre VARCHAR(256) NOT NULL,
     descripcion TEXT,
     estado INT NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE categoria (
 );
 
 CREATE TABLE equipamiento (
-    idequipamiento uuid DEFAULT uuid_generate_v4 (),
+    idequipamiento UUID NOT NULL,
     idcategoria UUID NOT NULL,
     nombre VARCHAR(256) NOT NULL,
     descripcion TEXT,
@@ -18,7 +18,7 @@ CREATE TABLE equipamiento (
 
 
 CREATE TABLE log (
-    idlog SERIAL PRIMARY KEY,
+    idlog UUID PRIMARY KEY,
     idequipamiento UUID,
     idcategoria UUID,
     accionrealizada INT NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE log (
 
 CREATE TABLE modificaciones (
     idmodificacion SERIAL PRIMARY KEY,
-    idlog INT NOT NULL,
+    idlog UUID NOT NULL,
     antescambio TEXT NOT NULL,
     despuescambio TEXT NOT NULL,
     FOREIGN KEY (idlog) REFERENCES log(idlog)

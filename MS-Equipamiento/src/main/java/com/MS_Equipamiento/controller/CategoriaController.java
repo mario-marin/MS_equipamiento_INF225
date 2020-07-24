@@ -86,7 +86,7 @@ public class CategoriaController {
         return Cat.getAllCategorias();
     }
 
-    @PostMapping("/categorias") // ERROR
+    @PostMapping("/categorias") // fixed
     void newCategoria(@RequestBody Map<String, Object> request) {
         String nombre = (String)request.get("nombre");
         String descripcion = (String)request.get("descripcion");
@@ -105,13 +105,20 @@ public class CategoriaController {
         return Cat.getCategoria(id);
     }
 
-    @PutMapping("/categorias")
-    void updateCategoria(@RequestBody Categoria categoria) {
-        Cat.updateCategoria(categoria);
+    @PutMapping("/categorias") // works
+    void updateCategoria(@RequestBody Map<String, Object> request) {
+        UUID id = UUID.fromString((String)request.get("idcategoria"));
+        String nombre = (String)request.get("nombre");
+        String descripcion = (String)request.get("descripcion");
+        int estado = (int)request.get("estado");
+
+        Categoria newCategoria = new Categoria(id,nombre, descripcion, estado);
+
+        Cat.updateCategoria(newCategoria);
     }
 
-    @DeleteMapping("/categorias/{id}")
-    void deleteCategoria(@PathVariable UUID id) {
+    @DeleteMapping("/categorias/{id}") //works
+    void deleteCategoria(@PathVariable("id") UUID id) {
         Cat.deleteCategoria(id);
     }
 

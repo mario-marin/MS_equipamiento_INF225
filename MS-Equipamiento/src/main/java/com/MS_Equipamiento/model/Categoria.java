@@ -17,7 +17,7 @@ public class Categoria {
     }
 
     public Categoria(String nombre, String descripcion, int estado) {
-        this.id = null;
+        this.id = UUID.randomUUID();;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
