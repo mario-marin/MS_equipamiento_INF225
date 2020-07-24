@@ -24,16 +24,17 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
     @Override
     public void insertEquipamiento(Equipamiento equipamiento) {
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String query = "INSERT INTO equipamiento (idcategoria, nombre, descripcion, estado) VALUES (?,?,?,?)";
-        Object[] values = new Object[]{equipamiento.getCategoria().getId(),equipamiento.getName(),equipamiento.getDescripsion(),equipamiento.getEstado()};
-        jdbcTemplate.update(query,values,keyHolder);
+
+        String query = "INSERT INTO equipamiento (idequipamiento, idcategoria, nombre, descripcion, estado) VALUES (?,?,?,?,?)";
+        Object[] values = new Object[]{equipamiento.getId(),equipamiento.getCategoria().getId(),equipamiento.getName(),equipamiento.getDescripsion(),equipamiento.getEstado()};
+        jdbcTemplate.update(query,values);
 
         long timestamp = Instant.now().getEpochSecond();
+        UUID idlog = UUID.randomUUID();
 
-        query = "INSERT INTO LOG (idequipamiento, idcategoria, accionRealizada, fecha) VALUES (?,?,?,?)";
-        values = new Object[]{keyHolder.getKey(),null,100,timestamp};
+        query = "INSERT INTO LOG (idlog, idequipamiento, idcategoria, accionRealizada, fecha) VALUES (?,?,?,?,?)";
+        values = new Object[]{idlog,equipamiento.getId(),null,100,timestamp};
         jdbcTemplate.update(query,values);
     }
 
@@ -143,15 +144,15 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
     }
 
     @Override
-    public List<Equipamiento> getAllEquipamiento() {
-        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, categoria.idcategoria, categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.idcategoria";
+    public List<Equipamiento> getAllEquipamiento() { //works
+        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, CAST(categoria.idcategoria AS VARCHAR), categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.idcategoria";
         Object[] values = new Object[]{};
         return (jdbcTemplate.query(query,values,new EquipamientoRowMapper()));
     }
 
     @Override
     public List<Equipamiento> getAllEquipamientoFromCategory(UUID id_categoria) {
-        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, categoria.idcategoria, categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.idcategoria WHERE idcategoria=?";
+        String query = "SELECT CAST(equipamiento.idequipamiento AS VARCHAR), equipamiento.nombre, equipamiento.descripcion, equipamiento.estado, CAST(categoria.idcategoria AS VARCHAR), categoria.nombre, categoria.descripcion, categoria.estado FROM equipamiento INNER JOIN categoria ON equipamiento.idcategoria=categoria.idcategoria WHERE equipamiento.idcategoria=?";
         Object[] values = new Object[]{id_categoria};
         return (jdbcTemplate.query(query,values,new EquipamientoRowMapper()));
     }

@@ -26,7 +26,7 @@ public class CategoriaDataAccessService implements CategoriasDao{
     @Override
     public void insertCategoria(Categoria categoria) {
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        //KeyHolder keyHolder = new GeneratedKeyHolder();
 
         String query = "INSERT INTO categoria (idcategoria, nombre, descripcion, estado) VALUES (?,?,?,?)";
         Object[] values = new Object[]{categoria.getId(),categoria.getNombre(),categoria.getDescripcion(),categoria.getEstado()};

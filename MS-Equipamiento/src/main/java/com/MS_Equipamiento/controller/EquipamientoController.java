@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -68,6 +69,7 @@ public void insertCategoria(@RequestBody Categoria cat) {
 }
 ***/
 
+
 public class EquipamientoController {
 
     private final EquipamientoDataAccessService Equip;
@@ -78,26 +80,34 @@ public class EquipamientoController {
    
   // Aggregate root
 
-    @GetMapping("/equipamientos")
+    @GetMapping("/equipamientos") //works
     List<Equipamiento> getAllEquipamiento() {
         return Equip.getAllEquipamiento();
     }
 
-    @GetMapping("/equip/cat/{id}")
+    @GetMapping("/equip/cat/{id}") //works
     List<Equipamiento> getAllEquipamientoFromCategory(@PathVariable UUID id) {
         return Equip.getAllEquipamientoFromCategory(id);
     }
 
-    @PostMapping("/equipamientos")
-    void newEquipamiento(@RequestBody Equipamiento newEquipamiento) {
+    @PostMapping("/equipamientos") //works
+    void newEquipamiento(@RequestBody Map<String, Object> request) {
+
+        UUID idcategoria = UUID.fromString((String)request.get("idcategoria"));
+        String nombre = (String)request.get("nombre");
+        String descripcion = (String)request.get("descripcion");
+        int estado = (int)request.get("estado");
+
+        Equipamiento newEquipamiento = new Equipamiento(idcategoria,nombre,descripcion,estado);
+
         Equip.insertEquipamiento(newEquipamiento);
     }
 
   // Single item
 
-    @GetMapping("/equipamientos/{id}")
-    void one(@PathVariable UUID id) {
-        Equip.getEquipamiento(id);
+    @GetMapping("/equipamientos/{id}") //works
+    Equipamiento one(@PathVariable UUID id) {
+        return(Equip.getEquipamiento(id));
     }
 
     @PutMapping("/equipamientos")

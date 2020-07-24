@@ -17,10 +17,14 @@ public class Categoria {
     }
 
     public Categoria(String nombre, String descripcion, int estado) {
-        this.id = UUID.randomUUID();;
+        this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
+    }
+
+    public Categoria(UUID id){
+        this.id = id;
     }
 
     public UUID getId() {

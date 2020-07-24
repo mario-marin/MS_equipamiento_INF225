@@ -19,8 +19,16 @@ public class Equipamiento {
     }
 
     public Equipamiento( Categoria categoria, String name, String descripsion, int estado) {
-        this.id = null;
+        this.id = UUID.randomUUID();
         this.categoria = categoria;
+        this.name = name;
+        this.descripsion = descripsion;
+        this.estado = estado;
+    }
+
+    public Equipamiento( UUID id_categoria, String name, String descripsion, int estado) {
+        this.id = UUID.randomUUID();
+        this.categoria = new Categoria(id_categoria);
         this.name = name;
         this.descripsion = descripsion;
         this.estado = estado;
