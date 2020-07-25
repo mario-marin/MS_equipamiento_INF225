@@ -85,7 +85,7 @@ public class EquipamientoController {
         return Equip.getAllEquipamiento();
     }
 
-    @GetMapping("/equip/cat/{id}") //works
+    @GetMapping("/equipamientos/categoria/{id}") //works
     List<Equipamiento> getAllEquipamientoFromCategory(@PathVariable UUID id) {
         return Equip.getAllEquipamientoFromCategory(id);
     }
@@ -110,12 +110,21 @@ public class EquipamientoController {
         return(Equip.getEquipamiento(id));
     }
 
-    @PutMapping("/equipamientos")
-    void updateEquipamiento(@RequestBody Equipamiento equipamiento) {
-        Equip.updateEquipamiento(equipamiento);
+    @PutMapping("/equipamientos") //works
+    void updateEquipamiento(@RequestBody Map<String, Object> request) {
+
+        UUID idqeuipamiento = UUID.fromString((String)request.get("idequipamiento"));
+        UUID idcategoria = UUID.fromString((String)request.get("idcategoria"));
+        String nombre = (String)request.get("nombre");
+        String descripcion = (String)request.get("descripcion");
+        int estado = (int)request.get("estado");
+
+        Equipamiento newEquipamiento = new Equipamiento(idqeuipamiento,idcategoria,nombre,descripcion,estado);
+
+        Equip.updateEquipamiento(newEquipamiento);
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/equipamientos/delete/{id}") //works
     void deleteEquipamiento(@PathVariable UUID id) {
         Equip.deleteEquipamiento(id);
     }

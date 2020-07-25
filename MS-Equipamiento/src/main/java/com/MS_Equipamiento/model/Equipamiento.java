@@ -10,7 +10,7 @@ public class Equipamiento {
     private long estado;
 
 
-    public Equipamiento(UUID id, Categoria categoria, String name, String descripsion, int estado) {
+    public Equipamiento(UUID id, Categoria categoria, String name, String descripsion, int estado) { //for old equipments with full category
         this.id = id;
         this.categoria = categoria;
         this.name = name;
@@ -18,7 +18,7 @@ public class Equipamiento {
         this.estado = estado;
     }
 
-    public Equipamiento( Categoria categoria, String name, String descripsion, int estado) {
+    public Equipamiento( Categoria categoria, String name, String descripsion, int estado) { //for new equipments with full category
         this.id = UUID.randomUUID();
         this.categoria = categoria;
         this.name = name;
@@ -26,8 +26,16 @@ public class Equipamiento {
         this.estado = estado;
     }
 
-    public Equipamiento( UUID id_categoria, String name, String descripsion, int estado) {
+    public Equipamiento( UUID id_categoria, String name, String descripsion, int estado) { // for new equipments with only category_id
         this.id = UUID.randomUUID();
+        this.categoria = new Categoria(id_categoria);
+        this.name = name;
+        this.descripsion = descripsion;
+        this.estado = estado;
+    }
+
+    public Equipamiento( UUID id_equipamiento,UUID id_categoria, String name, String descripsion, int estado) { //for old equipments with only category_id
+        this.id = id_equipamiento;
         this.categoria = new Categoria(id_categoria);
         this.name = name;
         this.descripsion = descripsion;

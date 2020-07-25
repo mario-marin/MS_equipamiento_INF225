@@ -45,9 +45,10 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
         jdbcTemplate.update(query,values);
 
         long timestamp = Instant.now().getEpochSecond();
+        UUID idlog = UUID.randomUUID();
 
-        query = "INSERT INTO LOG (idequipamiento, idcategoria, accionRealizada, fecha) VALUES (?,?,?,?)";
-        values = new Object[]{equipamiento_id,null,900,timestamp};
+        query = "INSERT INTO LOG (idlog, idequipamiento, idcategoria, accionRealizada, fecha) VALUES (?,?,?,?,?)";
+        values = new Object[]{idlog,equipamiento_id,null,900,timestamp};
         jdbcTemplate.update(query,values);
     }
 
@@ -66,79 +67,93 @@ public class EquipamientoDataAccessService implements EquipamientoDao {
         Equipamiento old_equipamiento = getEquipamiento(equipamiento_id);
 
         if (old_equipamiento.getEstado() != 900){ //si el equipo esta eliminado entonses no hacer nada
-            if (equipamiento.getDescripsion() != old_equipamiento.getDescripsion() ){
+            if (!equipamiento.getDescripsion().equals(old_equipamiento.getDescripsion()) ){
                 String query = "UPDATE equipamiento SET descripcion=? WHERE idequipamiento=?";
                 Object[] values = new Object[]{equipamiento.getDescripsion(),equipamiento_id};
                 jdbcTemplate.update(query,values);
 
                 long timestamp = Instant.now().getEpochSecond();
-                KeyHolder keyHolder = new GeneratedKeyHolder();
+                UUID idlog = UUID.randomUUID();
 
-                query = "INSERT INTO log (idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?)";
-                values = new Object[]{equipamiento_id,null,800,timestamp};
-                jdbcTemplate.update(query,values,keyHolder);
+                query = "INSERT INTO log (idlog, idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?,?)";
+                values = new Object[]{idlog,equipamiento_id,null,800,timestamp};
+                jdbcTemplate.update(query,values);
 
-                query = "INSERT INTO modificaciones (idmodificacion, idlog, antescambio, despuescambio) VALUES (?,?,?,?)";
+                query = "INSERT INTO modificaciones ( idlog, antescambio, despuescambio) VALUES (?,?,?)";
                 String AntesCambio = "Descripcion: " + old_equipamiento.getDescripsion();
                 String DespuesCambio = "Descripcion: " + equipamiento.getDescripsion();
-                values = new Object[]{keyHolder.getKey(),AntesCambio,DespuesCambio};
+                values = new Object[]{idlog,AntesCambio,DespuesCambio};
                 jdbcTemplate.update(query,values);
 
             }
-            if (equipamiento.getName() != old_equipamiento.getName() ) {
+            if (!equipamiento.getName().equals(old_equipamiento.getName()) ) {
                 String query = "UPDATE equipamiento SET nombre=? WHERE idequipamiento=?";
                 Object[] values = new Object[]{equipamiento.getName(), equipamiento_id};
                 jdbcTemplate.update(query, values);
 
                 long timestamp = Instant.now().getEpochSecond();
-                KeyHolder keyHolder = new GeneratedKeyHolder();
+                UUID idlog = UUID.randomUUID();
 
-                query = "INSERT INTO log (idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?)";
-                values = new Object[]{equipamiento_id, null, 800, timestamp};
-                jdbcTemplate.update(query, values, keyHolder);
+                query = "INSERT INTO log (idlog,idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?,?)";
+                values = new Object[]{idlog,equipamiento_id, null, 800, timestamp};
+                jdbcTemplate.update(query, values);
 
-                query = "INSERT INTO modificaciones (idmodificacion, idlog, antescambio, despuescambio) VALUES (?,?,?,?)";
+                query = "INSERT INTO modificaciones (idlog, antescambio, despuescambio) VALUES (?,?,?)";
                 String AntesCambio = "Nombre: " + old_equipamiento.getName();
                 String DespuesCambio = "Nombre: " + equipamiento.getName();
-                values = new Object[]{keyHolder.getKey(),AntesCambio,DespuesCambio};
+                values = new Object[]{idlog,AntesCambio,DespuesCambio};
                 jdbcTemplate.update(query,values);
             }
 
-            if (equipamiento.getCategoria().getId() != old_equipamiento.getCategoria().getId() ){
-                String query = "UPDATE equipamiento SET idcategoria=? WHERE idequipamiento=?";
+            if (!equipamiento.getCategoria().getId().equals(old_equipamiento.getCategoria().getId()) ){
+
+
+                String query = "ALTER TABLE equipamiento DROP CONSTRAINT equipamiento_idcategoria_fkey";
+                jdbcTemplate.update(query);
+
+                query = "UPDATE equipamiento SET idcategoria=? WHERE idequipamiento=?";
                 Object[] values = new Object[]{equipamiento.getCategoria().getId(),equipamiento_id};
                 jdbcTemplate.update(query,values);
 
+                query = "ALTER TABLE equipamiento ADD CONSTRAINT equipamiento_idcategoria_fkey FOREIGN KEY (idcategoria) REFERENCES categoria(idcategoria)";
+                jdbcTemplate.update(query);
+
                 long timestamp = Instant.now().getEpochSecond();
-                KeyHolder keyHolder = new GeneratedKeyHolder();
+                UUID idlog = UUID.randomUUID();
 
-                query = "INSERT INTO log (idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?)";
-                values = new Object[]{equipamiento_id,null,800,timestamp};
-                jdbcTemplate.update(query,values,keyHolder);
+                query = "INSERT INTO log (idlog,idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?,?)";
+                values = new Object[]{idlog,equipamiento_id,null,800,timestamp};
+                jdbcTemplate.update(query,values);
 
-                query = "INSERT INTO modificaciones (idmodificacion, idlog, antescambio, despuescambio) VALUES (?,?,?,?)";
+                query = "INSERT INTO modificaciones (idlog, antescambio, despuescambio) VALUES (?,?,?)";
                 String AntesCambio = "idCategoria: " + old_equipamiento.getCategoria().getId().toString();
                 String DespuesCambio = "idCategoria: " + equipamiento.getCategoria().getId().toString();
-                values = new Object[]{keyHolder.getKey(),AntesCambio,DespuesCambio};
+                values = new Object[]{idlog,AntesCambio,DespuesCambio};
                 jdbcTemplate.update(query,values);
+
+
+
             }
             if (equipamiento.getEstado() != old_equipamiento.getEstado() ){
+
                 String query = "UPDATE equipamiento SET estado=? WHERE idequipamiento=?";
                 Object[] values = new Object[]{equipamiento.getEstado(),equipamiento_id};
                 jdbcTemplate.update(query,values);
 
                 long timestamp = Instant.now().getEpochSecond();
-                KeyHolder keyHolder = new GeneratedKeyHolder();
+                UUID idlog = UUID.randomUUID();
 
-                query = "INSERT INTO log (idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?)";
-                values = new Object[]{equipamiento_id,null,800,timestamp};
-                jdbcTemplate.update(query,values,keyHolder);
+                query = "INSERT INTO log (idlog,idequipamiento, idcategoria, accionrealizada, fecha) VALUES (?,?,?,?,?)";
+                values = new Object[]{idlog,equipamiento_id,null,800,timestamp};
+                jdbcTemplate.update(query,values);
 
-                query = "INSERT INTO modificaciones (idmodificacion, idlog, antescambio, despuescambio) VALUES (?,?,?,?)";
+                query = "INSERT INTO modificaciones (idlog, antescambio, despuescambio) VALUES (?,?,?)";
                 String AntesCambio = "Estado: " + old_equipamiento.getEstado();
                 String DespuesCambio = "Estado: " + equipamiento.getEstado();
-                values = new Object[]{keyHolder.getKey(),AntesCambio,DespuesCambio};
+                values = new Object[]{idlog,AntesCambio,DespuesCambio};
                 jdbcTemplate.update(query,values);
+
+
             }
         }
     }
