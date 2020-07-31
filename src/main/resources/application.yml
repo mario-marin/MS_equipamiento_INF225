@@ -1,6 +1,6 @@
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/equipamiento
-    username: admin
-    password: password
+    jdbc-url: jdbc:postgres://eikwhffihmmumy:f0e6e51006604076f51c3de7bdd7f9b3d325300a0323ebcb4659b80af74f4089@ec2-52-1-95-247.compute-1.amazonaws.com:5432/dbiu7vutqmnvdo
+    username: eikwhffihmmumy
+    password: f0e6e51006604076f51c3de7bdd7f9b3d325300a0323ebcb4659b80af74f4089
     poll-size: 30
