@@ -1,0 +1,6 @@
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/equipamiento
+    username: admin
+    password: password
+    poll-size: 30
